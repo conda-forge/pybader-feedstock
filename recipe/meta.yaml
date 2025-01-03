@@ -6,7 +6,7 @@ package:
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/pybader-{{ version }}.tar.gz
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/pybader-{{ version }}.tar.gz
   sha256: edaf7fc6694290a15c8f1fec00b683f38fb51fd3d073bf5ae0ba18f4e7661751
 
 build:
@@ -15,17 +15,18 @@ build:
     - bader-read = pybader.entry_points:bader_read
   noarch: python
   script: {{ PYTHON }} -m pip install . -vv
-  number: 0
+  number: 1
 
 requirements:
   host:
     - pip
-    - python >=3.6
+    - python {{ python_min }}
+    - setuptools
   run:
     - numba
     - numpy
     - pandas
-    - python >=3.6
+    - python >={{ python_min }}
     - tqdm
 
 test:
@@ -37,6 +38,7 @@ test:
     - bader-read --help
   requires:
     - pip
+    - python {{ python_min }}
 
 about:
   home: https://github.com/kerrigoon/pybader
