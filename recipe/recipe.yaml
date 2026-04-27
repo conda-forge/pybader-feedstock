@@ -32,6 +32,7 @@ requirements:
     - pandas
     - python >=${{ python_min }}
     - tqdm
+    - setuptools <81
 
 tests:
   - python:
