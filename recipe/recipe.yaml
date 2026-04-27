@@ -25,7 +25,7 @@ requirements:
   host:
     - pip
     - python ${{ python_min }}.*
-    - setuptools
+    - setuptools <81
   run:
     - numba
     - numpy
