@@ -1,0 +1,58 @@
+schema_version: 1
+
+context:
+  name: pybader
+  version: "0.3.12"
+
+package:
+  name: ${{ name|lower }}
+  version: ${{ version }}
+
+source:
+  url: https://pypi.org/packages/source/${{ name[0] }}/${{ name }}/pybader-${{ version }}.tar.gz
+  sha256: edaf7fc6694290a15c8f1fec00b683f38fb51fd3d073bf5ae0ba18f4e7661751
+
+build:
+  number: 2
+  noarch: python
+  script: ${{ PYTHON }} -m pip install . -vv
+  python:
+    entry_points:
+      - bader = pybader.entry_points:bader
+      - bader-read = pybader.entry_points:bader_read
+
+requirements:
+  host:
+    - pip
+    - python ${{ python_min }}.*
+    - setuptools
+  run:
+    - numba
+    - numpy
+    - pandas
+    - python >=${{ python_min }}
+    - tqdm
+
+tests:
+  - python:
+      imports:
+        - pybader
+      pip_check: true
+      python_version: ${{ python_min }}
+  - requirements:
+      run:
+        - pip
+        - python ${{ python_min }}.*
+    script:
+      - bader --help
+      - bader-read --help
+
+about:
+  summary: Threaded implementation of grid-based Bader charge analysis.
+  license: MIT
+  license_file: LICENSE
+  homepage: https://github.com/kerrigoon/pybader
+
+extra:
+  recipe-maintainers:
+    - jan-janssen
